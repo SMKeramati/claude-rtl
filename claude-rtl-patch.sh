@@ -109,10 +109,10 @@ ensure_asar_tool() {
     installer_name="npm";  installer_cmd="$NPM_BIN i"
   fi
 
-  step "Installing @electron/asar via $installer_name…"
+  step "Installing @electron/asar via ${installer_name}…"
   # shellcheck disable=SC2086
   ( cd "$TOOL_DIR" && $installer_cmd '@electron/asar@^3' >/dev/null 2>&1 ) \
-    || die "Failed to install @electron/asar into $TOOL_DIR (using $installer_name)"
+    || die "Failed to install @electron/asar into ${TOOL_DIR} (using ${installer_name})"
 }
 
 asar_run() {
