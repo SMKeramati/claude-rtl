@@ -85,15 +85,34 @@ ensure_node() {
 }
 
 # Install @electron/asar locally once so we can call it fast on every run.
+# Pinned to ^3 — v4+ went ESM-only and renamed the bin to asar.mjs, which
+# breaks both `node bin/asar.js` and the inline `require('@electron/asar')`
+# call in asar_header_hash.
+#
+# Installer preference: bun → pnpm → npm. The first one already on PATH wins;
+# bootstrapped Node ships with npm as the guaranteed fallback.
 ensure_asar_tool() {
   TOOL_DIR="$STATE_DIR/tool"
-  if [ ! -d "$TOOL_DIR/node_modules/@electron/asar" ]; then
-    mkdir -p "$TOOL_DIR"
-    ( cd "$TOOL_DIR" \
-      && "$NPM_BIN" init -y >/dev/null 2>&1 \
-      && "$NPM_BIN" i @electron/asar >/dev/null 2>&1 ) \
-      || die "Failed to install @electron/asar into $TOOL_DIR"
+  if [ -f "$TOOL_DIR/node_modules/@electron/asar/bin/asar.js" ]; then
+    return
   fi
+  rm -rf "$TOOL_DIR"
+  mkdir -p "$TOOL_DIR"
+  printf '{"name":"claude-rtl-tool","private":true}\n' > "$TOOL_DIR/package.json"
+
+  local installer_name installer_cmd
+  if command -v bun >/dev/null 2>&1; then
+    installer_name="bun";  installer_cmd="bun add"
+  elif command -v pnpm >/dev/null 2>&1; then
+    installer_name="pnpm"; installer_cmd="pnpm add"
+  else
+    installer_name="npm";  installer_cmd="$NPM_BIN i"
+  fi
+
+  step "Installing @electron/asar via $installer_name…"
+  # shellcheck disable=SC2086
+  ( cd "$TOOL_DIR" && $installer_cmd '@electron/asar@^3' >/dev/null 2>&1 ) \
+    || die "Failed to install @electron/asar into $TOOL_DIR (using $installer_name)"
 }
 
 asar_run() {
