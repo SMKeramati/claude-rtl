@@ -12,6 +12,22 @@ One script. One command. Reversible. Universal — works on any Mac, with or wit
 
 ---
 
+## Install (one-liner)
+
+```bash
+curl -fsSLo /tmp/c.sh https://raw.githubusercontent.com/SMKeramati/claude-rtl/main/claude-rtl-patch.sh && chmod +x /tmp/c.sh && /tmp/c.sh --install && source ~/.zshrc
+```
+
+Then quit Claude and run:
+
+```bash
+claude-rtl
+```
+
+That's it. Open Claude — mixed RTL/LTR text now auto-flows by paragraph.
+
+---
+
 ## Why this exists
 
 Claude Desktop is an Electron shell that loads claude.ai. The web app's chat input and message containers don't set `dir="auto"` or `unicode-bidi: plaintext`, so the Unicode bidirectional algorithm has nothing to anchor on and mixed RTL+LTR text renders left-to-right — unreadable for ~520M Arabic / Persian / Hebrew speakers.
