@@ -12,11 +12,15 @@ One script. One command. Reversible. Universal — works on any Mac, with or wit
 
 ---
 
-## Install (one-liner)
+## Install & update
+
+Same one-liner does both — fresh install **or** pulling the latest version:
 
 ```bash
 curl -fsSLo /tmp/c.sh https://raw.githubusercontent.com/SMKeramati/claude-rtl/main/claude-rtl-patch.sh && chmod +x /tmp/c.sh && /tmp/c.sh --install && source ~/.zshrc
 ```
+
+`--install` overwrites `~/.claude/claude-rtl-patch.sh` in place; your existing `claude-rtl` alias keeps working.
 
 Then quit Claude and run:
 
@@ -110,7 +114,7 @@ claude-rtl
 
 The script detects "not patched", makes a fresh backup of the new asar, and re-applies. Takes ~5 seconds.
 
-**To update the script itself,** download the new version and run `--install` again. It overwrites the copy in `~/.claude/` and your existing alias keeps pointing at the same path.
+**To update the script itself,** re-run the [install & update one-liner](#install--update).
 
 ---
 
