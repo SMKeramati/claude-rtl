@@ -254,6 +254,10 @@ function attach(wc) {
     wc.insertCSS(CSS).catch(() => {});
     wc.executeJavaScript(JS_PAYLOAD).catch(() => {});
   };
+  // 'dom-ready' fires before React's first paint — inject here so the
+  // initial render already has correct direction, no blank-flash, no
+  // need to refresh on first launch.
+  wc.on('dom-ready', run);
   wc.on('did-finish-load', run);
   wc.on('did-frame-finish-load', run);
   wc.on('did-navigate-in-page', run);
