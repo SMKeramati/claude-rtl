@@ -1,14 +1,10 @@
 # claude-rtl
 
-**Fix the RTL bug in Claude Desktop on macOS.** Mixed Persian/Arabic/Hebrew + English text now flows in the correct direction per paragraph — automatically, everywhere in the app.
+**Fix the RTL bug in Claude Desktop on macOS.** Mixed Persian / Arabic / Hebrew + English text now flows correctly per paragraph — the first strong character of each block decides direction, automatically, everywhere in the app. Code blocks stay LTR.
 
-```
-سلام hi چطوری         →  flows RTL, "hi" mirrored inside
-hi سلام how are you   →  flows LTR, "سلام" mirrored inside
-print("سلام")         →  code stays LTR no matter what
-```
+<!-- screenshots / GIFs go here -->
 
-One script. One command. Reversible. Universal — works on any Mac, with or without Node installed.
+One script, one command. Idempotent, fully reversible, and an optional silent auto-reapply that survives Claude's own updates. No Homebrew, no Node required — everything bootstraps locally without touching the system.
 
 ---
 
@@ -29,6 +25,17 @@ claude-rtl
 ```
 
 That's it. Open Claude — mixed RTL/LTR text now auto-flows by paragraph.
+
+### Hands-off mode (optional)
+
+Don't want to re-run `claude-rtl` after every Claude auto-update? One command wires up a macOS LaunchAgent that re-applies the patch silently whenever Claude replaces `app.asar`:
+
+```bash
+claude-rtl --auto-install      # enable
+claude-rtl --auto-uninstall    # disable
+```
+
+Event-driven via `WatchPaths` — no polling, no cron. A scoped passwordless `sudoers.d` rule keeps each fire silent; the script is `chown`ed `root:wheel` so user-level processes can't replace what the rule trusts. Full details and security tradeoff in [Auto re-apply on Claude updates](#auto-re-apply-on-claude-updates-optional) below.
 
 ---
 
