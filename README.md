@@ -1,4 +1,14 @@
-# claude-rtl
+# claude-rtl (retired)
+
+> [!IMPORTANT]
+> **This project is retired and the repo is archived.** Use **[readable](https://github.com/smk-labs/claude-plugins/tree/main/plugins/readable)** instead: `/plugin marketplace add smk-labs/claude-plugins` then `/plugin install readable@smk`.
+>
+> The script below still works on the Claude Desktop builds it was written for, and the code stays here for reference, but it will not be updated. It was always the risky half of the trade: it patches `Claude.app`, needs `sudo`, and every Claude auto-update wipes it. readable does the part that actually matters (Claude's Persian replies, rendered correctly) as a plain plugin, with none of that. The one thing only an app patch could fix, the direction of the text *you type*, was never worth the maintenance.
+>
+> The patch pipeline itself lives on in [claude-deck](https://github.com/smk-labs/claude-deck), which is where it grew up.
+
+<details>
+<summary>Original README</summary>
 
 > [!TIP]
 > **Most people should start with [readable](https://github.com/smk-labs/claude-plugins/tree/main/plugins/readable) instead.** claude-rtl works by patching `Claude.app` itself, and that carries real costs: it needs `sudo`, it modifies a system app, and **every Claude auto-update silently wipes the patch**, so you either re-run it by hand or grant a passwordless-sudo LaunchAgent to re-apply it for you. readable has none of these problems. It is a plain Claude Code plugin: one hook styles Claude's replies as proper RTL cards (Vazirmatn, per-paragraph direction, LTR-isolated code) at near zero token cost. No app patching, no sudo, nothing breaks on update, and it survives any Claude version.
@@ -238,3 +248,5 @@ MIT. See `LICENSE`.
 - The fix concept (`unicode-bidi: plaintext` + `dir="auto"`) is the standard CSS Writing Modes / HTML approach for bidirectional text.
 - Hash + signing technique adapted from the macOS Electron asar-integrity / codesign documentation, plus prior art in [shraga100/claude-desktop-rtl-patch](https://github.com/shraga100/claude-desktop-rtl-patch) (Windows).
 - Built for everyone who's been typing `سلام hi` and squinting at the result.
+
+</details>
